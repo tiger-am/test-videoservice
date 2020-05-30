@@ -1,0 +1,10 @@
+{
+  "name": "test-videoservice",
+  "version": "1.0.0",
+  "description": "react app for videoservice",
+  "main": "index.js",
+  "repository": "https://github.com/tiger-am/test-videoservice.git",
+  "author": "Alexander Morozov <tiger-am@ya.ru>",
+  "license": "MIT",
+  "private": true
+}
