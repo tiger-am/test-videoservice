@@ -17,13 +17,7 @@ function Films({fetchFilms, films, loading}) {
         fetchFilms()
     }, [])
 
-    useEffect(() => {
-
-    })
-
-
     const settings = {
-        // lazyload: true,
         nav: false,
         mouseDrag: true,
         controls: false,
@@ -38,9 +32,7 @@ function Films({fetchFilms, films, loading}) {
             615: {
                 items: 2,
             },
-            768: {
-            },
-            1024: {
+            870: {
                 items: 3,
             },
             1200: {
@@ -49,41 +41,78 @@ function Films({fetchFilms, films, loading}) {
         }
     };
 
+    const genre = [
+        {
+            icon: '😁',
+            title: 'Комедии',
+            color: 'orange'
+        },{
+            icon: '😭',
+            title: 'Драмы',
+            color: 'red'
+        },{
+            icon: '👽',
+            title: 'Фантастика',
+            color: 'blue'
+        },{
+            icon: '👻',
+            title: 'Ужасы',
+            color: 'gray'
+        },
+    ]
+
     return (
-        <main className="container">
+        <main className="container page">
             <Nav/>
 
-            <div className="films">
+            <section className="films">
                 {loading ? <Spinner/> : (
                     <>
-                        <h2 className="films__title">🔥 Новинки</h2>
+                        <h2 className="title-h2">🔥 Новинки</h2>
 
                         <div className="film-list">
                             <TinySlider settings={settings}>
-                            {films.map(({id, title, image, description}) => (
-                                <div key={id} className="film-item">
-                                    <div
-                                        className="film-item__card"
-                                    >
-                                    <Link
-                                        to={`/films/${id}`}
-                                    >
-                                        <img src={image} alt={title}/>
+                                {films.map(({id, title, image, description}) => (
+                                    <div key={id} className="film-item">
+                                        <div
+                                            className="film-item__card"
+                                        >
+                                            <Link
+                                                to={`/films/${id}`}
+                                            >
+                                                <img src={image} alt={title}/>
 
-                                        <div className="film-item__description">
-                                            {description}
+                                                <div className="film-item__description">
+                                                    {description}
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                </div>
 
-                                    <h3 className="film-item__title">{title}</h3>
-                                </div>
-                            ))}
+                                        <h3 className="film-item__title">{title}</h3>
+                                    </div>
+                                ))}
                             </TinySlider>
                         </div>
                     </>
                 )}
-            </div>
+            </section>
+
+            <section className="genre">
+                <h2 className="title-h2">Жанры</h2>
+                <div className="genre-list">
+
+                    <TinySlider settings={settings}>
+                        {genre.map(({icon, title, color}) => (
+                            <div key={title} className={`genre-item`}>
+                                <div className={`genre-item__card gradient--${color}`}>
+                                    <h3 className="genre-item__title">{title}</h3>
+                                    <span className="genre-item__icon">{icon}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </TinySlider>
+                </div>
+            </section>
         </main>
     )
 }

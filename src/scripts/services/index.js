@@ -50,18 +50,19 @@ export default function useService() {
 }
 
 export function useStorage() {
-    const getData = (name) => {
-        if (localStorage.has(name))
-            return localStorage.getItem(name);
-
-        return false
+    const getData = (key) => {
+        return JSON.parse(localStorage.getItem(key));
     }
 
-    const setData = (name, data) => {
-        localStorage.setItem(name, data)
+    const setData = (key, data) => {
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    const removeData = (key) => {
+        localStorage.removeItem(key);
     }
 
     return {
-        getData, setData
+        getData, setData, removeData
     }
 }

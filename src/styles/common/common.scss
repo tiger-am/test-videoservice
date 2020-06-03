@@ -68,6 +68,30 @@ button {
     @include container();
 }
 
+.title-h2 {
+    @include font(Medium);
+    font-size: 24px;
+}
+
+.page {
+    padding-bottom: 72px;
+}
+
+$gradients: (
+        'orange': (#F2C94C, #F29A4A),
+        'red': (#F2994A, #EB5757),
+        'blue': (#56CCF2, #2F80ED),
+        'gray': (#828282, #333333)
+);
+
+.gradient {
+    @each $name, $colors in $gradients {
+        &--#{$name} {
+            @include gradient(nth($colors, 1), nth($colors, 2));
+        }
+    }
+}
+
 @import "spinner";
 @import "checkbox";
 @import "input";
