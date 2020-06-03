@@ -1,0 +1,31 @@
+@import "../../mixins";
+
+.nav {
+    //margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    @include unstyled();
+    display: flex;
+
+    li {
+        &:not(:last-child) {
+            margin-right: 24px;
+        }
+    }
+
+    &__link {
+        display: inline-block;
+        padding: 8px 0;
+        @include font(Medium);
+        font-size: 28px;
+        color: $gray1;
+
+        &--active {
+            color: $red;
+            border-bottom: 2px solid;
+        }
+    }
+}

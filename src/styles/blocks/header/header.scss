@@ -1,0 +1,78 @@
+@import "../../mixins";
+
+.header {
+    padding: 34px 0 36px;
+
+    &__container {
+        @include container();
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        @include media($tablet-breakpoint) {
+            flex-wrap: nowrap;
+        }
+
+        > * {
+            flex: 1;
+        }
+    }
+
+    @include media($tablet-breakpoint, d) {
+        &__logo {
+
+        }
+
+        &__search {
+            order: 2;
+            flex-basis: 100%;
+            margin-top: 20px;
+
+        }
+    }
+}
+
+.btn {
+    @include font(Medium);
+    font-size: 16px;
+    cursor: pointer;
+
+    &--primary {
+        padding: 9px 32px 10px;
+        background: $red;
+        border-radius: 4px;
+        outline: none;
+        transition: background-color .3s;
+        color: $white;
+
+        &:hover, &:focus {
+            background: $red-dark;
+        }
+    }
+
+    &--secondary {
+        color: $red;
+        transition: color .3s;
+
+        &:hover, &:focus {
+            color: $red-dark;
+        }
+    }
+}
+
+.search {
+    display: flex;
+    align-items: center;
+
+    .input {
+        flex-grow: 1;
+        margin-right: 32px;
+    }
+}
+
+.auth {
+    padding-left: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+

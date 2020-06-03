@@ -1,0 +1,13 @@
+@import "../theme";
+
+@mixin media($width, $up: true) {
+    @if ($up==true) {
+        @media screen and (min-width: #{$width}px) {
+            @content;
+        }
+    } @else {
+        @media screen and (max-width: #{$width - 1}px) {
+            @content;
+        }
+    }
+}

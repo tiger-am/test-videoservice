@@ -1,0 +1,27 @@
+@mixin font-face($family, $path, $weight, $style) {
+    @font-face {
+        font-family: $family;
+        src: url("#{$path}.woff2") format("woff2"), url("#{$path}.woff") format("woff");
+        font-weight: $weight;
+        font-style: $style;
+        font-display: swap;
+    }
+}
+
+@mixin font($weightInit: Regular, $font: Rubik, $style: normal) {
+    font-family: $font;
+    font-style: $style;
+
+    $weight: map_get(
+                    (
+                            'Light': 300,
+                            'Regular': normal,
+                            'Medium': 500,
+                            'Bold': bold,
+                            'Black': 900
+                    ),
+                    $weightInit
+    );
+
+    font-weight: $weight or $weightInit;
+}

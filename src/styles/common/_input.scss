@@ -1,0 +1,21 @@
+@import "../mixins";
+
+.input {
+    display: block;
+    font-size: 16px;
+
+    &__field {
+        width: 100%;
+        padding: 6px 0;
+        border: 0;
+        border-bottom: 1px solid $gray1;
+        @include font(Medium);
+        font-size: inherit;
+        outline: none;
+
+        &::placeholder {
+            @include font();
+            color: $gray3;
+        }
+    }
+}

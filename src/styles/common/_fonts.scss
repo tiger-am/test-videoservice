@@ -1,0 +1,13 @@
+@import "../mixins/font";
+
+$fonts: (
+                ('Light', 300, normal),
+                ('Regular', normal, normal),
+                ('Medium', 500, normal),
+                ('Bold', bold, normal),
+                ('Black', 900, normal),
+);
+
+@each $font, $weight, $style in $fonts {
+    @include font-face("Rubik", "../fonts/Rubik-#{$font}", $weight, $style);
+}

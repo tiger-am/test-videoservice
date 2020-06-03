@@ -1,0 +1,69 @@
+@import "../../mixins";
+
+.modal {
+    position: fixed;
+    z-index: 99999;
+
+    &__close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        @include media($tablet-breakpoint, d) {
+            display: none;
+        }
+    }
+
+    &__overlay {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        background: rgba($gray1, .6);
+    }
+
+    &__content {
+        background: $white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        max-width: 304px;
+        height: 394px;
+        padding: 36px;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    &__title {
+        text-align: center;
+        @include font(Medium);
+        font-size: 28px;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .input {
+            margin-top: 18px;
+        }
+
+        .checkbox {
+            margin-top: 24px;
+        }
+    }
+
+    &__footer {
+        text-align: center;
+        margin-top: auto;
+    }
+}
+
+body.open-modal {
+    overflow: hidden;
+}

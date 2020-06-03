@@ -1,0 +1,27 @@
+@import "../../mixins";
+
+.logo {
+    display: flex;
+    align-items: center;
+    @include font(Medium);
+    font-size: 20px;
+    color: $gray1;
+    transition: opacity .3s;
+
+    &:hover, &:focus {
+        opacity: .8;
+        outline: none;
+    }
+
+    img {
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+    }
+
+    @include media($tablet-breakpoint, d) {
+        span {
+            display: none;
+        }
+    }
+}

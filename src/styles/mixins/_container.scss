@@ -1,0 +1,17 @@
+@import "media";
+
+@mixin container() {
+    position: relative;
+    width: 100%;
+    max-width: calc(1180px + 80px);
+    padding: 0 16px;
+    margin: 0 auto;
+
+    @include media($tablet-breakpoint) {
+        padding: 0 32px;
+    }
+
+    @include media($desktop-breakpoint) {
+        padding: 0 40px;
+    }
+}

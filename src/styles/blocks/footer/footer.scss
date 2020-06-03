@@ -1,0 +1,42 @@
+@import "../../mixins";
+
+.footer {
+    margin-top: auto;
+    background: $gray6;
+    padding: 22px 0;
+
+    &__container {
+        @include container();
+        display: flex;
+        align-items: center;
+    }
+
+    &__logo {
+        margin-right: 40px;
+    }
+
+    &__htc {
+        margin-top: 10px;
+
+        a {
+            @include unstyled();
+            @include font(Medium);
+            color: $htc;
+
+            &:hover, &:focus {
+
+            }
+        }
+    }
+
+    &__text {
+        &, & a {
+            @include font();
+            color: $gray1;
+        }
+
+        &:not(:first-child) {
+            margin-top: 6px;
+        }
+    }
+}
