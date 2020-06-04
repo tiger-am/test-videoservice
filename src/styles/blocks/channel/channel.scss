@@ -1,0 +1,46 @@
+@import "../../mixins";
+@import "~react-baron/src/styles.css";
+.channels {
+    margin-top: 27px;
+}
+
+.channel-list {
+    @include unstyled();
+    max-height: 696px;
+}
+
+.channel-item {
+    display: flex;
+    background: $gray6;
+    border-radius: 8px;
+    padding: 21px 24px 19px 143px;
+    margin-top: 16px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &__img {
+
+    }
+
+    &__content {
+
+    }
+
+    &__schedule {
+        margin-top: 17px;
+    }
+}
+
+.schedule-list {
+    @include unstyled();
+
+    &__item {
+        display: flex;
+
+        > *:not(:last-child) {
+            margin-right: 16px;
+        }
+    }
+}

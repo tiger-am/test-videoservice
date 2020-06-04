@@ -1,4 +1,4 @@
-import {types} from '../utils'
+import {types} from '../../utils'
 
 const filmsRequested = () => ({
     type: types.FETCH_FILMS_REQUEST
@@ -14,12 +14,13 @@ const filmsFailed = (error) => ({
     payload: error
 });
 
-const fetchFilms =  (service, dispatch) => async () => {
+const fetchFilms = getFilms => async (dispatch) => {
     dispatch(filmsRequested());
 
     try {
-        const data = await service.getFilms();
+        const data = await getFilms();
         dispatch(filmsLoaded(data))
+        console.log(data); //eslint-disable-line
     } catch (error) {
         dispatch(filmsFailed(error))
     }
@@ -28,3 +29,4 @@ const fetchFilms =  (service, dispatch) => async () => {
 export {
     fetchFilms
 }
+

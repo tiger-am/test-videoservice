@@ -88,7 +88,7 @@ export default function Auth() {
                     <div className="auth">
 
                         {isEditLogin ? (
-                            <label className="input">
+                            <label className="input input--auth">
                                 <input
                                     autoFocus
                                     type="text"
@@ -99,17 +99,16 @@ export default function Auth() {
                                 />
                             </label>
                         ) : (
-                            <span style={{
-                                fontWeight: 500,
-                                marginRight: 16
-                            }}
-                                  onClick={handleLogin}
+                            <span
+                                style={{fontWeight: 500}}
+                                onClick={handleLogin}
                             >
-                            {user.login}
-                        </span>)}
-
+                                {user.login}
+                            </span>
+                        )}
 
                         <button
+                            style={{marginLeft: 16}}
                             onClick={logout}
                             type="button"
                             className="btn btn--secondary"

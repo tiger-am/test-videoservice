@@ -1,65 +1,72 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import withLayout from "components/HOC/withLayout";
 import Nav from "components/Nav";
 import Spinner from "components/Spinner";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchFilms} from "actions";
 import {compose} from "utils";
-import withService from "components/HOC/withService";
 import {Link} from "react-router-dom";
 import TinySlider from "tiny-slider-react";
+import useService from "services/index";
 
-function Films({fetchFilms, films, loading}) {
+const settings = {
+    nav: false,
+    mouseDrag: true,
+    controls: false,
+    gutter: 20,
+    items: 1,
+    slideBy: 'page',
+    autoplay: false,
+    navPosition: 'bottom',
+    autoplayButtonOutput: false,
+    loop: false,
+    responsive: {
+        615: {
+            items: 2,
+        },
+        870: {
+            items: 3,
+        },
+        1200: {
+            items: 4,
+        }
+    }
+};
 
-    // const {getFilms, loading, error, clearError} = useService();
+const genre = [
+    {
+        icon: '😁',
+        title: 'Комедии',
+        color: 'orange'
+    }, {
+        icon: '😭',
+        title: 'Драмы',
+        color: 'red'
+    }, {
+        icon: '👽',
+        title: 'Фантастика',
+        color: 'blue'
+    }, {
+        icon: '👻',
+        title: 'Ужасы',
+        color: 'gray'
+    },
+]
+
+function Films() {
+    const {loading, getFilms: loadFilms} = useService();
+    const dispatch = useDispatch();
+    const films = useSelector(({films}) => films)
+
+    const getFilms = useCallback(() => {
+        dispatch(fetchFilms(loadFilms));
+    }, [dispatch, fetchFilms, loadFilms])
 
     useEffect(() => {
-        fetchFilms()
+        getFilms()
+
+        console.log(loading); //eslint-disable-line
     }, [])
-
-    const settings = {
-        nav: false,
-        mouseDrag: true,
-        controls: false,
-        gutter: 20,
-        items: 1,
-        slideBy: 'page',
-        autoplay: false,
-        navPosition: 'bottom',
-        autoplayButtonOutput: false,
-        loop: false,
-        responsive: {
-            615: {
-                items: 2,
-            },
-            870: {
-                items: 3,
-            },
-            1200: {
-                items: 4,
-            }
-        }
-    };
-
-    const genre = [
-        {
-            icon: '😁',
-            title: 'Комедии',
-            color: 'orange'
-        },{
-            icon: '😭',
-            title: 'Драмы',
-            color: 'red'
-        },{
-            icon: '👽',
-            title: 'Фантастика',
-            color: 'blue'
-        },{
-            icon: '👻',
-            title: 'Ужасы',
-            color: 'gray'
-        },
-    ]
 
     return (
         <main className="container page">
@@ -117,16 +124,7 @@ function Films({fetchFilms, films, loading}) {
     )
 }
 
-const mapStateToProps = ({films, loading}) => ({films, loading})
-
-const mapDispatchToProps = (dispatch, {service}) => {
-    return {
-        fetchFilms: fetchFilms(service, dispatch)
-    }
-};
-
 export default compose(
-    withService(),
-    connect(mapStateToProps, mapDispatchToProps)
-)(withLayout(Films));
+    withLayout
+)(Films);
 

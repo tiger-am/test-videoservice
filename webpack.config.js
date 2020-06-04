@@ -109,10 +109,10 @@ module.exports = (env = {}) => {
 
         resolve: {
             alias: {
-                actions: path.resolve(__dirname, `src/scripts/actions`),
+                actions: path.resolve(__dirname, `src/scripts/redux/actions`),
                 components: path.resolve(__dirname, `src/scripts/components`),
                 pages: path.resolve(__dirname, `src/scripts/pages`),
-                reducers: path.resolve(__dirname, `src/scripts/reducers`),
+                reducers: path.resolve(__dirname, `src/scripts/redux/reducers`),
                 services: path.resolve(__dirname, `src/scripts/services`),
                 utils: path.resolve(__dirname, `src/scripts/utils`),
             },

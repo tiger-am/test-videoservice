@@ -5,22 +5,17 @@ import {BrowserRouter as Router} from "react-router-dom";
 
 import App from 'components/App'
 import ErrorBoundary from "components/ErrorBoundary";
-import {ServiceProvider} from 'components/ServiceContext'
-import store from './store'
-import useService from "services/index";
+import store from './redux/store'
 
 
 const Application = () => {
-    const service = useService();
 
     return (
         <Provider store={store}>
             <ErrorBoundary>
-                <ServiceProvider value={service}>
-                    <Router>
-                        <App/>
-                    </Router>
-                </ServiceProvider>
+                <Router>
+                    <App/>
+                </Router>
             </ErrorBoundary>
         </Provider>
     )
