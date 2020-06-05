@@ -1,14 +1,14 @@
 @import "../../mixins";
 
-.genre {
+.genres {
     margin-top: 32px;
 }
 
-.genre-list {
+.genres-list {
     margin-top: 16px;
 }
 
-.genre-item {
+.genres-item {
     &__card {
         position: relative;
         cursor: pointer;

@@ -3,7 +3,7 @@ import withLayout from "components/HOC/withLayout";
 import Nav from "components/Nav";
 import Spinner from "components/Spinner";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchFilms} from "actions/films";
+import {fetchFilms, fetchGenres} from "actions/films";
 import {compose} from "utils";
 import {Link} from "react-router-dom";
 import TinySlider from "tiny-slider-react";
@@ -33,40 +33,26 @@ const settings = {
     }
 };
 
-const genre = [
-    {
-        icon: '😁',
-        title: 'Комедии',
-        color: 'orange'
-    }, {
-        icon: '😭',
-        title: 'Драмы',
-        color: 'red'
-    }, {
-        icon: '👽',
-        title: 'Фантастика',
-        color: 'blue'
-    }, {
-        icon: '👻',
-        title: 'Ужасы',
-        color: 'gray'
-    },
-]
 
 function Films() {
-    const {loading, getFilms: loadFilms} = useService();
+    const {loading, getFilms: loadFilms, getGenres: loadGenres} = useService();
     const dispatch = useDispatch();
-    const films = useSelector(({films}) => films.films)
+    const films = useSelector(({films}) => films.films);
+    const genres = useSelector(({films}) => films.genres);
 
     const getFilms = useCallback(() => {
         dispatch(fetchFilms(loadFilms));
-    }, [dispatch, fetchFilms, loadFilms])
+    }, [dispatch, fetchFilms, loadFilms]);
+
+    const getGenres = useCallback(() => {
+        dispatch(fetchGenres(loadGenres));
+    }, [dispatch, fetchFilms, loadGenres]);
 
     useEffect(() => {
-        getFilms()
+        getFilms();
+        getGenres();
 
-        console.log(loading); //eslint-disable-line
-    }, [])
+    }, []);
 
     return (
         <main className="container page">
@@ -78,48 +64,56 @@ function Films() {
                         <h2 className="title-h2">🔥 Новинки</h2>
 
                         <div className="film-list">
-                            <TinySlider settings={settings}>
-                                {films.map(({id, title, image, description}) => (
-                                    <div key={id} className="film-item">
-                                        <div
-                                            className="film-item__card"
-                                        >
-                                            <Link
-                                                to={`/films/${id}`}
+                            {!!films.length && (
+                                <TinySlider settings={settings}>
+                                    {films.map(({id, title, image, description}) => (
+                                        <div key={id} className="film-item">
+                                            <div
+                                                className="film-item__card"
                                             >
-                                                <img src={image} alt={title}/>
+                                                <Link
+                                                    to={`/films/${id}`}
+                                                >
+                                                    <img src={image} alt={title}/>
 
-                                                <div className="film-item__description">
-                                                    {description}
-                                                </div>
-                                            </Link>
+                                                    <div className="film-item__description">
+                                                        {description}
+                                                    </div>
+                                                </Link>
+                                            </div>
+
+                                            <h3 className="film-item__title">{title}</h3>
                                         </div>
+                                    ))}
+                                </TinySlider>
+                            )}
 
-                                        <h3 className="film-item__title">{title}</h3>
-                                    </div>
-                                ))}
-                            </TinySlider>
                         </div>
                     </>
                 )}
             </section>
 
-            <section className="genre">
-                <h2 className="title-h2">Жанры</h2>
-                <div className="genre-list">
+            {!!genres.length && (
+                <section className="genres">
 
-                    <TinySlider settings={settings}>
-                        {genre.map(({icon, title, color}) => (
-                            <div key={title} className={`genre-item`}>
-                                <div className={`genre-item__card gradient--${color}`}>
-                                    <h3 className="genre-item__title">{title}</h3>
-                                    <span className="genre-item__icon">{icon}</span>
+                    <h2 className="title-h2">Жанры</h2>
+
+                    <div className="genres-list">
+
+                        <TinySlider settings={settings}>
+                            {genres.map(({icon, title, color}) => (
+                                <div key={title} className={`genres-item`}>
+                                    <div className={`genres-item__card gradient--${color}`}>
+                                        <h3 className="genres-item__title">{title}</h3>
+                                        <span className="genres-item__icon">{icon}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </TinySlider>
-                </div>
-            </section>
+                            ))}
+                        </TinySlider>
+
+                    </div>
+                </section>
+            )}
         </main>
     )
 }

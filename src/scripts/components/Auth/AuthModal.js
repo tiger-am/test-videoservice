@@ -16,7 +16,7 @@ export default function ({modalIsOpen, closeModal, login, handleChange}) {
         >
             <button type="button" className="modal__close"/>
 
-            <form className="modal__form" onSubmit={login}>
+            <form className="modal__form" name="login-form" onSubmit={login}>
                 <h2 className="modal__title">Вход</h2>
 
                 <label className="input">

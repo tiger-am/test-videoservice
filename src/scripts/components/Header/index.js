@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 import Auth from "components/Auth";
+import Search from "components/Search";
+
 
 export default function Header() {
 
@@ -18,16 +20,7 @@ export default function Header() {
                 </div>
 
                 <div className="header__search">
-                    <form
-                        className="search"
-                        // onSubmit={}
-                    >
-                        <label className="input">
-                            <input type="text" className="input__field" placeholder="Поиск..."/>
-                        </label>
-
-                        <button type="submit" className="btn btn--secondary">Найти</button>
-                    </form>
+                    <Search/>
                 </div>
 
                 <div className="header__auth">

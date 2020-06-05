@@ -26,6 +26,7 @@ export default function Auth() {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(isLoggedIn);
     const [isEditLogin, setIsEditLogin] = useState(false);
+    const [loginForm, setLoginForm] = useState({});
 
     const handleLogin = useCallback(() => {
         setIsEditLogin(true)
@@ -39,12 +40,6 @@ export default function Auth() {
         setIsOpen(false);
     }, [setIsOpen])
 
-    const logout = useCallback(() => {
-        removeData('user')
-        dispatch(clearUser())
-        setLoggedIn(false)
-    }, [removeData, clearUser, dispatch, setLoggedIn])
-
     const changeLogin = useCallback((e) => {
         dispatch(setUserLogin(e.target.value))
     }, [dispatch, setUserLogin])
@@ -53,19 +48,28 @@ export default function Auth() {
         setIsEditLogin(false)
     }, [setIsEditLogin])
 
-    const login = useCallback((e) => {
+    const login = useCallback((e) => { //TODO перевести логин на sessionStorage если remember: false
         e.preventDefault();
-        //TODO перевести логин на sessionStorage если remember: false
 
-        setData('user', {...user})
+        if (!loginForm.login) return
+
+        setData('user', loginForm)
+        dispatch(setUser(loginForm))
         setLoggedIn(true)
         closeModal()
     }, [setData, setLoggedIn])
 
+    const logout = useCallback(() => {
+        removeData('user')
+        dispatch(clearUser())
+        setLoggedIn(false)
+    }, [removeData, clearUser, dispatch, setLoggedIn])
+
     const handleChange = useCallback((e) => {
         const field = e.target.name;
         const value = field === 'remember' ? e.target.checked : e.target.value
-        dispatch(setUser({...user, [field]: value}))
+
+        setLoginForm({...loginForm, [field]: value})
     }, [dispatch, setUser])
 
     useEffect(() => {

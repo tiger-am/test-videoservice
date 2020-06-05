@@ -1,0 +1,116 @@
+[
+    {
+        "id": 11111,
+        "title": "Первый канал",
+        "logo": "/src/images/TMP/logo1.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Новости (с субтитрами)"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    },
+    {
+        "id": 22222,
+        "title": "2x2",
+        "logo": "/src/images/TMP/logo2.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Сериал"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    },
+    {
+        "id": 33333,
+        "title": "РБК",
+        "logo": "/src/images/TMP/logo3.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Пусть покупают"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    },
+    {
+        "id": 44444,
+        "title": "AMEDIA PREMIUM",
+        "logo": "/src/images/TMP/logo4.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Убить Билла"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    },
+    {
+        "id": 55555,
+        "title": "Второй канал",
+        "logo": "/src/images/TMP/logo1.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Мультфильм"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    },
+    {
+        "id": 66666,
+        "title": "Третий канал",
+        "logo": "/src/images/TMP/logo2.png",
+        "schedule": [
+            {
+                "time": "13:00",
+                "telecast": "Матрица"
+            },
+            {
+                "time": "14:00",
+                "telecast": "Давай поженимся"
+            },
+            {
+                "time": "15:00",
+                "telecast": "Другие новости"
+            }
+        ]
+    }
+]
