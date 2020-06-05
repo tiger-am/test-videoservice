@@ -1,26 +1,20 @@
-import {types} from '../../utils'
-
-const filmsRequested = () => ({
-    type: types.FETCH_FILMS_REQUEST
-});
+import {LOADED_FILMS_SUCCESS, LOADED_FILMS_FAILURE} from '../actionTypes'
 
 const filmsLoaded = (newFields) => ({
-    type: types.FETCH_FILMS_SUCCESS,
+    type: LOADED_FILMS_SUCCESS,
     payload: newFields
 });
 
 const filmsFailed = (error) => ({
-    type: types.FETCH_FILMS_FAILURE,
+    type: LOADED_FILMS_FAILURE,
     payload: error
 });
 
 const fetchFilms = getFilms => async (dispatch) => {
-    dispatch(filmsRequested());
-
     try {
         const data = await getFilms();
+
         dispatch(filmsLoaded(data))
-        console.log(data); //eslint-disable-line
     } catch (error) {
         dispatch(filmsFailed(error))
     }

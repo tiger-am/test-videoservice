@@ -1,6 +1,7 @@
 import React from "react";
 import withLayout from "components/HOC/withLayout";
 import Nav from "components/Nav";
+import classNames from "classnames";
 import Baron from "react-baron/dist/es5";
 
 const channels = [
@@ -82,16 +83,24 @@ function Channels() {
                     <ul className="channel-list">
                         {channels.map(({id, logo, title, schedule}) => (
                             <li key={id} className="channel-item">
-                                <div className="channel-item__img">
-                                    <img src={logo} alt={title}/>
+                                <div className="channel-item__logo">
+                                    <div className="channel-item__image">
+                                        <img src={logo} alt={title}/>
+                                    </div>
                                 </div>
 
                                 <div className="channel-item__content">
                                     <div className="channel-item__title">{title}</div>
 
                                     <ul className="channel-item__schedule schedule-list">
-                                        {schedule.map(({time, telecast}) => (
-                                            <li className="schedule-list__item" key={`${id}-${time}`}>
+                                        {schedule.map(({time, telecast}, index) => (
+                                            <li
+                                                className={classNames(
+                                                    "schedule-list__item",
+                                                    {'next': index === 0}
+                                                )}
+                                                key={`${id}-${time}`}
+                                            >
                                                 <span>{time}</span>
                                                 <span>{telecast}</span>
                                             </li>

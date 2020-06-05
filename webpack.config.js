@@ -32,7 +32,12 @@ module.exports = (env = {}) => {
     const getStyleLoaders = () => {
         return [
             isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader',
+            {
+                loader: 'css-loader',
+                options: {
+                    sourceMap: isDev
+                }
+            },
             {
                 loader: "postcss-loader",
                 options: {
@@ -50,6 +55,8 @@ module.exports = (env = {}) => {
             './src/styles/main.scss',
         ],
 
+        devtool: isDev ? 'inline-source-map' : false,
+
         output: {
             path: path.resolve(__dirname, 'dist/'),
             filename: isProd ? 'js/main-[hash:8].js' : undefined,
@@ -59,7 +66,7 @@ module.exports = (env = {}) => {
         module: {
             rules: [
                 {
-                    test: /\.(png|jpeg|jpg|gif)$/,
+                    test: /\.(png|jpeg|jpg|gif|svg)$/,
                     use: {
                         loader: "file-loader",
                         options: {
@@ -113,7 +120,7 @@ module.exports = (env = {}) => {
                 components: path.resolve(__dirname, `src/scripts/components`),
                 pages: path.resolve(__dirname, `src/scripts/pages`),
                 reducers: path.resolve(__dirname, `src/scripts/redux/reducers`),
-                services: path.resolve(__dirname, `src/scripts/services`),
+                hooks: path.resolve(__dirname, `src/scripts/hooks`),
                 utils: path.resolve(__dirname, `src/scripts/utils`),
             },
         },

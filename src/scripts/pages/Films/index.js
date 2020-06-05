@@ -3,11 +3,11 @@ import withLayout from "components/HOC/withLayout";
 import Nav from "components/Nav";
 import Spinner from "components/Spinner";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchFilms} from "actions";
+import {fetchFilms} from "actions/films";
 import {compose} from "utils";
 import {Link} from "react-router-dom";
 import TinySlider from "tiny-slider-react";
-import useService from "services/index";
+import useService from "hooks/useService";
 
 const settings = {
     nav: false,
@@ -56,7 +56,7 @@ const genre = [
 function Films() {
     const {loading, getFilms: loadFilms} = useService();
     const dispatch = useDispatch();
-    const films = useSelector(({films}) => films)
+    const films = useSelector(({films}) => films.films)
 
     const getFilms = useCallback(() => {
         dispatch(fetchFilms(loadFilms));

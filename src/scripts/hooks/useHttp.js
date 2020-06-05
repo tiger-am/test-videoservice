@@ -33,36 +33,3 @@ export const useHttp = () => {
 
     return {loading, request, error, clearError}
 }
-
-
-export default function useService() {
-    const {loading, request, error, clearError} = useHttp();
-
-    const getFilms = async () => {
-        // const data = await request('http://www.mocky.io/v2/5ed67c08340000480106dac8');
-        const data = await request('http://www.mocky.io/v2/5ed7c6a63200009abc274c37');
-        return data
-    }
-
-    return {
-        getFilms, loading, error, clearError
-    }
-}
-
-export function useStorage() {
-    const getData = (key) => {
-        return JSON.parse(localStorage.getItem(key));
-    }
-
-    const setData = (key, data) => {
-        localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    const removeData = (key) => {
-        localStorage.removeItem(key);
-    }
-
-    return {
-        getData, setData, removeData
-    }
-}

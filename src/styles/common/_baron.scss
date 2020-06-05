@@ -1,0 +1,31 @@
+@import "../mixins";
+@import "~react-baron/src/styles.css";
+
+.track {
+    display: block;
+    width: 8px;
+    background: $gray6;
+    border-radius: 2px;
+    top: 0;
+    bottom: 0;
+}
+
+.bar {
+    width: 4px;
+    border-radius: 2px;
+    right: 2px;
+    background: $gray4;
+    margin: 2px 0;
+}
+
+.scroller {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+}
+
+.clipper {
+    padding-right: 16px;
+    width: calc(100% + 16px) ;
+
+}

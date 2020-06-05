@@ -73,8 +73,32 @@ button {
     font-size: 24px;
 }
 
+.title-h3 {
+    @include font(Medium);
+    font-size: 20px;
+}
+
+.title-h4 {
+    @include font(Medium);
+    font-size: 16px;
+}
+
+.text-p1 {
+    @include font();
+    font-size: 16px;
+}
+
+.text-p2 {
+    @include font();
+    font-size: 20px;
+}
+
 .page {
     padding-bottom: 72px;
+}
+
+.hide {
+    display: none;
 }
 
 $gradients: (
@@ -92,6 +116,44 @@ $gradients: (
     }
 }
 
+.delete,
+.back-link {
+    top: 0;
+    position: absolute;
+    cursor: pointer;
+    transition: opacity .3s;
+    background: {
+        repeat: no-repeat;
+        position: center;
+    }
+
+    &:hover, &:focus {
+        opacity: .5;
+    }
+}
+
+.back-link {
+    left: 0;
+    width: 14px;
+    height: 24px;
+    background: {
+        image: url("/src/images/back-link.svg");
+        size: 14px 24px;
+    }
+}
+
+.delete {
+    left: calc(100% + 15px);
+    width: 15px;
+    height: 15px;
+    background: {
+        image: url("/src/images/delete.svg");
+        size: 15px 15px;
+    }
+}
+
+@import "btn";
 @import "spinner";
 @import "checkbox";
 @import "input";
+@import "baron";

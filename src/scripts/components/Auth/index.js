@@ -1,187 +1,97 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import Modal from 'react-modal';
-import {useStorage} from "services";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useStorage} from "hooks/useStorage";
+import Component from "components/Auth/Component";
+import AuthModal from "components/Auth/AuthModal";
+import {clearUser, setUserLogin, setUser} from "actions/user";
+import {useDispatch, useSelector} from "react-redux";
 
-Modal.setAppElement('#root');
+const useAuth = () => {
+    const {getData} = useStorage();
 
-const useAuth = (getData) => {
-    const isLoggedIn = !!getData('user');
+    const userStorage = getData('user')
+    const isLoggedIn = !!userStorage;
 
     return {
-        isLoggedIn
+        isLoggedIn,
+        userStorage
     }
 }
 
 export default function Auth() {
-    const initialUser = {
-        id: 123,
-        login: '',
-        password: '',
-        remember: ''
-    }
-    const {getData, setData, removeData} = useStorage();
-    const {isLoggedIn} = useAuth(getData);
+
+    const {setData, removeData} = useStorage();
+    const dispatch = useDispatch();
+    const user = useSelector(({user}) => user);
+    const {isLoggedIn, userStorage} = useAuth();
     const [modalIsOpen, setIsOpen] = useState(false);
     const [loggedIn, setLoggedIn] = useState(isLoggedIn);
-    const [user, setUser] = useState(initialUser);
     const [isEditLogin, setIsEditLogin] = useState(false);
 
-    const handleLogin = () => {
+    const handleLogin = useCallback(() => {
         setIsEditLogin(true)
-    }
+    }, [setIsEditLogin])
 
-    const openModal = () => {
+    const openModal = useCallback(() => {
         setIsOpen(true);
-    };
+    }, [setIsOpen])
 
-    const closeModal = () => {
+    const closeModal = useCallback(() => {
         setIsOpen(false);
-    };
+    }, [setIsOpen])
 
-    const logout = () => {
+    const logout = useCallback(() => {
         removeData('user')
+        dispatch(clearUser())
         setLoggedIn(false)
-    }
+    }, [removeData, clearUser, dispatch, setLoggedIn])
 
-    const changeLogin = (e) => {
-        setUser({
-            ...user,
-            login: e.target.value
-        })
-    }
+    const changeLogin = useCallback((e) => {
+        dispatch(setUserLogin(e.target.value))
+    }, [dispatch, setUserLogin])
 
-    const applyNewLogin = (e) => {
-        setData('user', {...user})
+    const applyNewLogin = useCallback(() => {
         setIsEditLogin(false)
-    }
+    }, [setIsEditLogin])
 
-    const login = (e) => {
+    const login = useCallback((e) => {
         e.preventDefault();
         //TODO перевести логин на sessionStorage если remember: false
-        //TODO отправить данные в redux
 
         setData('user', {...user})
         setLoggedIn(true)
-    }
+        closeModal()
+    }, [setData, setLoggedIn])
 
-    const handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         const field = e.target.name;
         const value = field === 'remember' ? e.target.checked : e.target.value
-        setUser({...user, [field]: value})
-    }
+        dispatch(setUser({...user, [field]: value}))
+    }, [dispatch, setUser])
 
     useEffect(() => {
-        const user = getData('user');
-
-        if (!user) return
-
-        setUser({...user})
-        setLoggedIn(true)
-
-    }, [loggedIn]);
+        if (isLoggedIn) {
+            dispatch(setUser(userStorage))
+        }
+    }, []);
 
     return (
-        <>
-            {loggedIn
-                ? (
-                    <div className="auth">
-
-                        {isEditLogin ? (
-                            <label className="input input--auth">
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    className="input__field"
-                                    value={user.login}
-                                    onChange={changeLogin}
-                                    onBlur={applyNewLogin}
-                                />
-                            </label>
-                        ) : (
-                            <span
-                                style={{fontWeight: 500}}
-                                onClick={handleLogin}
-                            >
-                                {user.login}
-                            </span>
-                        )}
-
-                        <button
-                            style={{marginLeft: 16}}
-                            onClick={logout}
-                            type="button"
-                            className="btn btn--secondary"
-                        >
-                            Выйти
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        <div className="auth">
-                            <button
-                                onClick={openModal}
-                                type="button"
-                                className="btn btn--primary"
-                            >
-                                Войти
-                            </button>
-                        </div>
-
-                        <Modal
-                            isOpen={modalIsOpen}
-                            onRequestClose={closeModal}
-                            contentLabel="Авторизация"
-                            portalClassName="modal"
-                            overlayClassName="modal__overlay"
-                            className="modal__content"
-                            bodyOpenClassName="open-modal"
-                        >
-                            <button type="button" className="modal__close"/>
-
-                            <form className="modal__form" onSubmit={login}>
-                                <h2 className="modal__title">Вход</h2>
-
-                                <label className="input">
-                                    <input
-                                        type="text"
-                                        className="input__field"
-                                        name="login"
-                                        placeholder="Логин"
-                                        onChange={handleChange}
-                                    />
-                                </label>
-
-                                <label className="input">
-                                    <input
-                                        type="password"
-                                        className="input__field"
-                                        name="password"
-                                        onChange={handleChange}
-                                        placeholder="Пароль"
-                                    />
-                                </label>
-
-                                <label className="checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="remember"
-                                        id="remember"
-                                        onChange={handleChange}
-                                        defaultChecked={false}
-                                    />
-
-                                    <span>Запомнить</span>
-                                </label>
-
-                                <div className="modal__footer">
-                                    <button type="submit" className="btn btn--primary">Войти</button>
-                                </div>
-                            </form>
-                        </Modal>
-                    </>
-                )}
-
-        </>
+        <div className="auth">
+            <Component
+                user={user}
+                applyNewLogin={applyNewLogin}
+                changeLogin={changeLogin}
+                handleLogin={handleLogin}
+                isEditLogin={isEditLogin}
+                loggedIn={loggedIn}
+                logout={logout}
+                openModal={openModal}
+            />
+            <AuthModal
+                closeModal={closeModal}
+                handleChange={handleChange}
+                login={login}
+                modalIsOpen={modalIsOpen}
+            />
+        </div>
     )
 }
