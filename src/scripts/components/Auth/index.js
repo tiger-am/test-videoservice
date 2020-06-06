@@ -1,87 +1,83 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {useStorage} from "hooks/useStorage";
+import React, { useCallback, useState } from 'react';
 import Component from "components/Auth/Component";
 import AuthModal from "components/Auth/AuthModal";
-import {clearUser, setUserLogin, setUser} from "actions/user";
-import {useDispatch, useSelector} from "react-redux";
+import { clearUser, setUserLogin, setUser } from "actions/user";
+import { useDispatch, useSelector } from "react-redux";
 
 const useAuth = () => {
-    const {getData} = useStorage();
-
-    const userStorage = getData('user')
-    const isLoggedIn = !!userStorage;
+    const user = useSelector(({ user }) => user);
+    const isLoggedIn = !!user.id;
 
     return {
         isLoggedIn,
-        userStorage
+        user
     }
-}
+};
 
 export default function Auth() {
 
-    const {setData, removeData} = useStorage();
     const dispatch = useDispatch();
-    const user = useSelector(({user}) => user);
-    const {isLoggedIn, userStorage} = useAuth();
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(isLoggedIn);
-    const [isEditLogin, setIsEditLogin] = useState(false);
-    const [loginForm, setLoginForm] = useState({});
+    const { isLoggedIn, user } = useAuth();
+    const [ modalIsOpen, setIsOpen ] = useState(false);
+    const [ loggedIn, setLoggedIn ] = useState(isLoggedIn);
+    const [ isEditLogin, setIsEditLogin ] = useState(false);
+    const [ loginForm, setLoginForm ] = useState({});
+    const [ newLogin, setNewLogin ] = useState(user.login);
 
     const handleLogin = useCallback(() => {
-        setIsEditLogin(true)
-    }, [setIsEditLogin])
+        setIsEditLogin(true);
+        setNewLogin(user.login);
+    }, [ setIsEditLogin, setNewLogin, user ]);
 
     const openModal = useCallback(() => {
         setIsOpen(true);
-    }, [setIsOpen])
+    }, [ setIsOpen ]);
 
     const closeModal = useCallback(() => {
         setIsOpen(false);
-    }, [setIsOpen])
+    }, [ setIsOpen ]);
 
     const changeLogin = useCallback((e) => {
-        dispatch(setUserLogin(e.target.value))
-    }, [dispatch, setUserLogin])
+        setNewLogin(e.target.value);
+    }, [ setNewLogin ]);
 
     const applyNewLogin = useCallback(() => {
-        setIsEditLogin(false)
-    }, [setIsEditLogin])
+        setIsEditLogin(false);
+
+        if (newLogin) {
+            dispatch(setUserLogin(newLogin))
+        } else {
+            setNewLogin(user.login);
+        }
+    }, [ setIsEditLogin, dispatch, setUserLogin, newLogin, setNewLogin ]);
 
     const login = useCallback((e) => { //TODO перевести логин на sessionStorage если remember: false
         e.preventDefault();
 
-        if (!loginForm.login) return
+        if (!loginForm.login) return;
 
-        setData('user', loginForm)
-        dispatch(setUser(loginForm))
-        setLoggedIn(true)
+        dispatch(setUser(loginForm));
+        setLoggedIn(true);
+        setNewLogin(loginForm.login);
         closeModal()
-    }, [setData, setLoggedIn])
+    }, [ setLoggedIn, loginForm, setNewLogin ]);
 
     const logout = useCallback(() => {
-        removeData('user')
-        dispatch(clearUser())
+        dispatch(clearUser());
         setLoggedIn(false)
-    }, [removeData, clearUser, dispatch, setLoggedIn])
+    }, [ clearUser, dispatch, setLoggedIn ]);
 
     const handleChange = useCallback((e) => {
         const field = e.target.name;
-        const value = field === 'remember' ? e.target.checked : e.target.value
+        const value = field === 'remember' ? e.target.checked : e.target.value;
 
-        setLoginForm({...loginForm, [field]: value})
-    }, [dispatch, setUser])
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            dispatch(setUser(userStorage))
-        }
-    }, []);
+        setLoginForm({ ...loginForm, [ field ]: value })
+    }, [ dispatch, setUser ]);
 
     return (
         <div className="auth">
             <Component
-                user={user}
+                login={newLogin}
                 applyNewLogin={applyNewLogin}
                 changeLogin={changeLogin}
                 handleLogin={handleLogin}

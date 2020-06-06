@@ -6,7 +6,7 @@ export default function (
         isEditLogin,
         changeLogin,
         applyNewLogin,
-        user,
+        login,
         handleLogin,
         logout,
         openModal
@@ -22,22 +22,22 @@ export default function (
                                 autoFocus
                                 type="text"
                                 className="input__field"
-                                value={user.login}
+                                value={login}
                                 onChange={changeLogin}
                                 onBlur={applyNewLogin}
                             />
                         </label>
                     ) : (
                         <span
-                            style={{fontWeight: 500}}
+                            style={{ fontWeight: 500 }}
                             onClick={handleLogin}
                         >
-                            {user.login}
+                            {login}
                         </span>
                     )}
 
                     <button
-                        style={{marginLeft: 16}}
+                        style={{ marginLeft: 16 }}
                         onClick={logout}
                         type="button"
                         className="btn btn--secondary"

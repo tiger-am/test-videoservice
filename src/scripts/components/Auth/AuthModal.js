@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-export default function ({modalIsOpen, closeModal, login, handleChange}) {
+export default function ({ modalIsOpen, closeModal, login, handleChange }) {
     return (
         <Modal
             isOpen={modalIsOpen}
@@ -24,6 +24,7 @@ export default function ({modalIsOpen, closeModal, login, handleChange}) {
                         type="text"
                         className="input__field"
                         name="login"
+                        autoComplete="username"
                         placeholder="Логин"
                         onChange={handleChange}
                     />
@@ -34,6 +35,7 @@ export default function ({modalIsOpen, closeModal, login, handleChange}) {
                         type="password"
                         className="input__field"
                         name="password"
+                        autoComplete="current-password"
                         onChange={handleChange}
                         placeholder="Пароль"
                     />

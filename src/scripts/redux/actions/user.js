@@ -1,18 +1,35 @@
-import {SET_USER, CLEAR_USER, SET_USER_LOGIN} from '../actionTypes'
+import { SET_USER, CLEAR_USER, SET_USER_LOGIN } from '../actionTypes'
+import { useStorage } from "hooks/useStorage";
 
-const setUser = (user) => ({
-    type: SET_USER,
-    payload: user
-});
+const { setData, removeData, getData } = useStorage();
 
-const clearUser = () => ({
-    type: CLEAR_USER
-});
+const setUser = (user) => {
+    setData('user', user);
 
-const setUserLogin = (login) => ({
-    type: SET_USER_LOGIN,
-    payload: login
-})
+    return {
+        type: SET_USER,
+        payload: user
+    }
+};
+
+const clearUser = () => {
+    removeData('user');
+
+    return {
+        type: CLEAR_USER
+    }
+};
+
+const setUserLogin = (login) => {
+    const user = getData('user');
+
+    setData('user', { ...user, login });
+
+    return {
+        type: SET_USER_LOGIN,
+        payload: login
+    }
+};
 
 export {
     setUser,

@@ -1,23 +1,27 @@
-import React, {useCallback, useState} from "react";
-import {useDispatch} from "react-redux";
-import {setFilter} from "actions/search";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setFilter } from "actions/search";
+import { useHistory } from "react-router-dom";
 
 export default function Search() {
-    const [filterState, setFilterState] = useState('');
+    const [ filterState, setFilterState ] = useState('');
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
 
-        dispatch(setFilter(filterState))
-    }, [dispatch, setFilter, filterState]);
+        dispatch(setFilter(filterState));
+
+        history.push('/films');
+    }, [ dispatch, setFilter, filterState ]);
 
     const handleChange = useCallback((e) => {
         const value = e.target.value;
 
         setFilterState(value);
 
-    }, [setFilterState, filterState]);
+    }, [ setFilterState, filterState ]);
 
     return (
         <form

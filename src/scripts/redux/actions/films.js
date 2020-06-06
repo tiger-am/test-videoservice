@@ -1,46 +1,53 @@
-import {LOADED_FILMS_SUCCESS, LOADED_FILMS_FAILURE, LOADED_GENRES_SUCCESS, LOADED_GENRES_FAILURE} from '../actionTypes'
+import {
+    LOADED_FILMS_SUCCESS,
+    LOADED_FILMS_FAILURE,
+    LOADED_GENRES_SUCCESS,
+    LOADED_GENRES_FAILURE
+} from '../actionTypes'
+import { useStorage } from "hooks/useStorage";
 
-const filmsLoaded = (films) => ({
+export const filmsLoaded = (films) => ( {
     type: LOADED_FILMS_SUCCESS,
     payload: films
-});
+} );
 
-const filmsFailed = (error) => ({
+export const filmsFailed = (error) => ( {
     type: LOADED_FILMS_FAILURE,
     payload: error
-});
+} );
 
-const genresLoaded = (genres) => ({
+export const genresLoaded = (genres) => ( {
     type: LOADED_GENRES_SUCCESS,
     payload: genres
-});
+} );
 
-const genresFailed = (error) => ({
+export const genresFailed = (error) => ( {
     type: LOADED_GENRES_FAILURE,
     payload: error
-});
+} );
 
+const { setData } = useStorage();
 
-const fetchFilms = getFilms => async (dispatch) => {
+export const fetchFilms = getFilms => async (dispatch) => {
     try {
         const data = await getFilms();
 
-        dispatch(filmsLoaded(data))
-
+        dispatch(filmsLoaded(data));
+        setData('films', data);
     } catch (error) {
-        dispatch(filmsFailed(error))
+        dispatch(filmsFailed(error));
     }
 };
 
-const fetchGenres = getGenres => async (dispatch) => {
+export const fetchGenres = getGenres => async (dispatch) => {
     try {
         const data = await getGenres();
 
-        dispatch(genresLoaded(data))
+        dispatch(genresLoaded(data));
+        setData('genres', data);
     } catch (error) {
-        dispatch(genresFailed(error))
+        dispatch(genresFailed(error));
     }
 };
 
-export {fetchFilms, fetchGenres}
 

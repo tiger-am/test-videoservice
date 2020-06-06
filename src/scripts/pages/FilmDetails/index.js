@@ -1,38 +1,53 @@
-import React, {useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import withLayout from "components/HOC/withLayout";
 import Spinner from "components/Spinner";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import useService from "hooks/useService";
+import { fetchFilms } from "actions/films";
 
-function FilmDetails({match}) {
-    const films = useSelector(({films}) => films.films)
-    const id = +match.params.id
+function FilmDetails({ match, history }) {
+    const { loading: loadingRequest, getFilms } = useService();
+    const dispatch = useDispatch();
+    const films = useSelector(({ films }) => films.films);
+    const id = +match.params.id;
 
     const idx = films.findIndex(item => {
         console.log(item.id === id); //eslint-disable-line
         return item.id === +id
-    })
+    });
 
-    const [loading, setLoading] = useState(true);
-    const [film, setFilm] = useState({});
+    const loadFilms = useCallback(() => {
+        dispatch(fetchFilms(getFilms));
+    }, [ dispatch, fetchFilms, getFilms ]);
+
+    const [ loading, setLoading ] = useState(true);
+    const [ film, setFilm ] = useState({});
 
     console.log(films, idx, id); //eslint-disable-line
 
+    const goBack = () => {
+        history.goBack()
+    };
+
     useEffect(() => {
+
         if (idx > -1) {
             setLoading(false);
-            setFilm(films[idx])
+            setFilm(films[ idx ])
+        } else {
+            loadFilms()
         }
 
     }, []);
 
-    // if (loading) return <Spinner/>
+    if (loading || loadingRequest) return <Spinner/>;
 
     return (
         <main className="page container">
             <h1 className="hide">{film.title}</h1>
 
             <div className="film-details">
-                <button type="button" className="back-link">
+                <button type="button" className="back-link" onClick={goBack}>
                     <span className="hide">Назад</span>
                 </button>
 
