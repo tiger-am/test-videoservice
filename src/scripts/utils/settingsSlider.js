@@ -1,24 +1,29 @@
-
 export const settings = {
-    nav: false,
-    mouseDrag: true,
-    controls: false,
-    gutter: 20,
-    items: 1,
-    slideBy: 'page',
-    autoplay: false,
-    navPosition: 'bottom',
-    autoplayButtonOutput: false,
-    loop: false,
-    responsive: {
-        615: {
-            items: 2,
+    dots: false,
+    arrows: false,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    infinite: false,
+    responsive: [
+        {
+            breakpoint: 1200,
+            settings: {
+                slidesToShow: 3,
+            }
         },
-        870: {
-            items: 3,
+        {
+            breakpoint: 870,
+            settings: {
+                slidesToShow: 2,
+            }
         },
-        1200: {
-            items: 4,
-        }
-    }
+
+        {
+            breakpoint: 615,
+            settings: {
+                slidesToShow: 1,
+            },
+        },
+
+    ]
 };

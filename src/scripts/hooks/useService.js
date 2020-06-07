@@ -4,7 +4,7 @@ export default function useService() {
     const {loading, request, error, clearError} = useHttp();
 
     const getFilms = async () => {
-        return await request('http://www.mocky.io/v2/5ed7c6a63200009abc274c37');
+        return await request('http://www.mocky.io/v2/5edb67ca32000077005d2740');
     };
 
     const getGenres = async () => {
@@ -15,7 +15,11 @@ export default function useService() {
         return await request('http://www.mocky.io/v2/5edaa015330000560079ed0d');
     };
 
+    const getComments = async () => {
+        return await request('http://www.mocky.io/v2/5edb60a132000056005d272a');
+    };
+
     return {
-        getFilms, getGenres, getChannels, loading, error, clearError
+        getFilms, getGenres, getChannels, getComments, loading, error, clearError
     }
 }

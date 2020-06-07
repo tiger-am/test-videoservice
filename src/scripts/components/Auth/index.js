@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Component from "components/Auth/Component";
 import AuthModal from "components/Auth/AuthModal";
 import { clearUser, setUserLogin, setUser } from "actions/user";
@@ -11,7 +11,7 @@ const useAuth = () => {
     return {
         isLoggedIn,
         user
-    }
+    };
 };
 
 export default function Auth() {
@@ -45,13 +45,13 @@ export default function Auth() {
         setIsEditLogin(false);
 
         if (newLogin) {
-            dispatch(setUserLogin(newLogin))
+            dispatch(setUserLogin(newLogin));
         } else {
             setNewLogin(user.login);
         }
     }, [ setIsEditLogin, dispatch, setUserLogin, newLogin, setNewLogin ]);
 
-    const login = useCallback((e) => { //TODO перевести логин на sessionStorage если remember: false
+    const login = useCallback((e) => {
         e.preventDefault();
 
         if (!loginForm.login) return;
@@ -59,20 +59,27 @@ export default function Auth() {
         dispatch(setUser(loginForm));
         setLoggedIn(true);
         setNewLogin(loginForm.login);
-        closeModal()
+        closeModal();
     }, [ setLoggedIn, loginForm, setNewLogin ]);
 
     const logout = useCallback(() => {
         dispatch(clearUser());
-        setLoggedIn(false)
+        setLoggedIn(false);
     }, [ clearUser, dispatch, setLoggedIn ]);
 
     const handleChange = useCallback((e) => {
         const field = e.target.name;
         const value = field === 'remember' ? e.target.checked : e.target.value;
 
-        setLoginForm({ ...loginForm, [ field ]: value })
+        setLoginForm({ ...loginForm, [field]: value });
     }, [ dispatch, setUser ]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            setLoggedIn(true);
+            setNewLogin(user.login);
+        }
+    }, [ isLoggedIn ]);
 
     return (
         <div className="auth">
@@ -93,5 +100,5 @@ export default function Auth() {
                 modalIsOpen={modalIsOpen}
             />
         </div>
-    )
+    );
 }

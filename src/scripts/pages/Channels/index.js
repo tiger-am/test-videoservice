@@ -20,7 +20,6 @@ function Channels() {
 
 
     useEffect(() => {
-        console.log(channels); //eslint-disable-line
         if (!channels.length) getChannels();
     }, []);
 

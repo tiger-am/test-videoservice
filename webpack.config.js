@@ -88,7 +88,26 @@ module.exports = (env = {}) => {
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    loader: "babel-loader"
+                    use: {
+                        loader: "babel-loader",
+                        options: {
+                            presets: [
+                                [
+                                    "@babel/env",
+                                    {
+                                        "corejs": 3,
+                                        "useBuiltIns": "usage",
+                                        "debug": isDev,
+                                        "modules": false
+                                    }
+                                ],
+                                "@babel/react"
+                            ],
+                            plugins: [
+                                "@babel/proposal-class-properties"
+                            ]
+                        }
+                    }
                 },
                 {
                     test: /\.css$/,
@@ -102,7 +121,6 @@ module.exports = (env = {}) => {
         },
 
         devServer: {
-            // contentBase: path.join(__dirname, 'dist'),
             historyApiFallback: true,
             port: 3000,
             open: true
