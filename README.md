@@ -3,6 +3,7 @@
 ## Сборка
 
 1. установить зависимости 
+2. запустить `yarn start` or `npm run start`
 
 ## Макет 
 https://www.figma.com/file/a6plBHSkdMRizmWJikoJZ2/test-task-frontend-middle?node-id=5%3A41
